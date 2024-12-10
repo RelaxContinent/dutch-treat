@@ -1,7 +1,9 @@
 # go-capabilities-showcase
+
 go言語で自分ができることを記録する
 
 ## 割り勘APIを作成する
+
 DDDで設計
 gorm＋gRPC＋proto-gen-doc+go?
 フロントエンドはTypeScript
@@ -35,12 +37,14 @@ gorm＋gRPC＋proto-gen-doc+go?
 ## 基本設計
 
 「清算」ボタン押下
+
 - 入力内容をjsonにしてAPIに送る
 - 計算結果を表示する
 
 ### フロント構想
+
 割り勘する二人  
-A	B
+A B
 
 No   |何に  |誰が   |いくら払った
 -----|------|------|----------
@@ -69,18 +73,18 @@ Content-Type | application/json
 --------------------|------|--------|--------
 /member[]           |  ○   | []     | 割り勘するメンバー配列
 /member[]/name      |  ○   | string | 割り勘するメンバーの名前
-/payment[]          |  *1  | []     | 支払いの一覧      
+/payment[]          |  *1  | []     | 支払いの一覧
 /payment[]/payer    |  ○   | string | 支払った人（*2）
 /payment[]/amount   |  ○   | number | 金額
 
-*1 : payment配列が空またはnullも許容する   
+*1 : payment配列が空またはnullも許容する
 *2 : every /payment[]/payer is in /member[]/name
 
 #### レスポンスボディ
 
-   項目名            | 必須 |  形式  |  内容    
+   項目名            | 必須 |  形式  |  内容
 --------------------|------|--------|--------
-/payment[]          |  -   | []     | 支払いの一覧      
+/payment[]          |  -   | []     | 支払いの一覧
 /payment[]/payer    |  ○   | string | 支払った人
 /payment[]/amount   |  ○   | number | 金額
 
@@ -102,4 +106,3 @@ domain層
 infrastructure層  
   repositoryImpl  
 main  
-
