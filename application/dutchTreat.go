@@ -1,7 +1,9 @@
 package application
 
 import (
+	"go-capabilities-showcase/application/presenter"
 	"go-capabilities-showcase/domain"
+	"net/http"
 
 	"github.com/labstack/echo/v4"
 )
@@ -19,6 +21,15 @@ func NewDutchTreatHandler(dutchTreatService domain.DutchTreatService) DutchTreat
 }
 
 func (h dutchTreatHandler) DutchTreat(c echo.Context) error {
-	h.dutchTreatService.DutchTreat()
-	return nil
+	req, err := presenter.NewRequest(c)
+	if err != nil {
+		return err
+	}
+
+	res, err := h.dutchTreatService.DutchTreat(req)
+	if err != nil {
+		return err
+	}
+
+	return c.JSON(http.StatusOK, *res)
 }

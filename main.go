@@ -9,11 +9,12 @@ import (
 
 func main() {
 	e := echo.New()
+	e.Validator = domain.NewValidator()
 
 	s := domain.NewDutchTreatService()
 	h := application.NewDutchTreatHandler(s)
 
-	e.POST("/", h.DutchTreat)
+	e.POST("/test", h.DutchTreat)
 
 	e.Logger.Fatal(e.Start(":8080"))
 }
