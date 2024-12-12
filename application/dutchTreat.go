@@ -1,8 +1,8 @@
 package application
 
 import (
-	"go-capabilities-showcase/application/presenter"
-	"go-capabilities-showcase/domain"
+	"dutch-treat/application/presenter"
+	"dutch-treat/domain"
 	"net/http"
 
 	"github.com/labstack/echo/v4"

@@ -1,8 +1,8 @@
 package domain
 
 import (
-	"go-capabilities-showcase/application/presenter"
-	"go-capabilities-showcase/domain/types"
+	"dutch-treat/application/presenter"
+	"dutch-treat/domain/types"
 )
 
 type DutchTreatService interface {

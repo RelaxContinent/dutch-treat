@@ -1,4 +1,4 @@
-# go-capabilities-showcase
+# dutch-treat
 
 go言語で自分ができることを記録する
 

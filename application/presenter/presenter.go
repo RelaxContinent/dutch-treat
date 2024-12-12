@@ -1,7 +1,7 @@
 package presenter
 
 import (
-	"go-capabilities-showcase/domain/types"
+	"dutch-treat/domain/types"
 	"net/http"
 
 	"github.com/labstack/echo/v4"

@@ -1,8 +1,8 @@
 package main
 
 import (
-	"go-capabilities-showcase/application"
-	"go-capabilities-showcase/domain"
+	"dutch-treat/application"
+	"dutch-treat/domain"
 
 	"github.com/labstack/echo/v4"
 )
