@@ -10,6 +10,7 @@ import (
 
 type DutchTreatHandler interface {
 	DutchTreat(c echo.Context) error
+	Test(c echo.Context) error
 }
 
 type dutchTreatHandler struct {
@@ -31,5 +32,17 @@ func (h dutchTreatHandler) DutchTreat(c echo.Context) error {
 		return err
 	}
 
+	return c.JSON(http.StatusOK, *res)
+}
+
+func (h dutchTreatHandler) Test(c echo.Context) error {
+	res := &presenter.Response{
+		Payment: []presenter.Payment{
+			{
+				Payer:  "Alice",
+				Amount: 1000,
+			},
+		},
+	}
 	return c.JSON(http.StatusOK, *res)
 }

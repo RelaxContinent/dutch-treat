@@ -17,38 +17,31 @@ func NewDutchTreatService() DutchTreatService {
 }
 
 func (s dutchTreatService) DutchTreat(req *presenter.Request) (*presenter.Response, error) {
-	members := req.Members
-	payments := req.Payments
-
-	// 各自の支払額マップを初期化
-	paymentMap := make(map[types.Name]types.Amount, 0)
-	for _, member := range members {
-		paymentMap[member.Name] = 0
-	}
-
-	// 各自の支払額の和を計算
-	var sum int
-	for _, payment := range payments {
-		sum += int(payment.Amount)
+	// 各人の支払いを集計する
+	paymentMap := make(map[types.Name]types.Amount)
+	for _, payment := range req.Payments {
 		paymentMap[payment.Payer] += payment.Amount
 	}
 
-	// 割り勘した金額を計算
-	dutchTreatVal := sum / len(members) // TODO 10の位で四捨五入
-
-	// レスポンス生成
-	var res presenter.Response
-	if types.Amount(dutchTreatVal) > paymentMap[members[0].Name] {
-		res.Payment = presenter.Payment{
-			Payer:  members[0].Name,
-			Amount: types.Amount(dutchTreatVal) - paymentMap[members[0].Name],
-		}
-	} else {
-		res.Payment = presenter.Payment{
-			Payer:  members[1].Name,
-			Amount: types.Amount(dutchTreatVal) - paymentMap[members[1].Name],
-		}
+	// 支払いを合計
+	var allPayment types.Amount
+	for _, payment := range paymentMap {
+		allPayment += payment
 	}
 
-	return &res, nil
+	// 割り勘の金額を計算する
+	dutchTreatAmount := allPayment / types.Amount(len(paymentMap))
+
+	// 各人の支払いを計算する
+	result := make([]presenter.Payment, len(paymentMap))
+	i := 0
+	for name, amount := range paymentMap {
+		result[i] = presenter.Payment{
+			Payer:  name,
+			Amount: dutchTreatAmount - amount,
+		}
+		i++
+	}
+
+	return &presenter.Response{Payment: result}, nil
 }

@@ -14,6 +14,7 @@ func main() {
 	s := domain.NewDutchTreatService()
 	h := application.NewDutchTreatHandler(s)
 
+	e.GET("/", h.Test)
 	e.POST("/test", h.DutchTreat)
 
 	e.Logger.Fatal(e.Start(":8080"))

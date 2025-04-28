@@ -28,7 +28,7 @@ gorm＋gRPC＋proto-gen-doc+go?
 - 支払いを25件くらいは記録できること
 - 支払い全体で清算できること
 ＜記録する支払いに関する要件＞
-- 支払いの用途を自由に入力できること
+- 支払いの用途を自由に入力できること（フロント要件）
 - 支払い金額を自由に数値で入力できること
 - 支払った人をA,Bでえらべること
 
@@ -65,20 +65,27 @@ No.2 |朝ご飯|B      |2200円
 メソッド | POST  
 Content-Type | application/json  
 文字タイプ | utf-8  
-アクセスURL | TBD  
+アクセスURL | /dutch-treat  
 
 #### リクエストボディ
 
    項目名            | 必須 |  形式  |  内容  
 --------------------|------|--------|--------
-/member[]           |  ○   | []     | 割り勘するメンバー配列
-/member[]/name      |  ○   | string | 割り勘するメンバーの名前
 /payment[]          |  *1  | []     | 支払いの一覧
-/payment[]/payer    |  ○   | string | 支払った人（*2）
+/payment[]/payer    |  ○   | string | 支払った人
 /payment[]/amount   |  ○   | number | 金額
 
 *1 : payment配列が空またはnullも許容する
-*2 : every /payment[]/payer is in /member[]/name
+
+別案（リクエストをきれいにする案？フロント側からどっちが作りやすいか次第。）
+
+   項目名                    | 必須 |  形式  |  内容  
+----------------------------|------|--------|--------
+/payment[]                  |  *1  | []     | 支払いの一覧
+/payment[]/payer            |  ○   | string | 支払った人
+/payment[]/payer/[]amount   |  ○   | []number | 金額
+
+
 
 #### レスポンスボディ
 
@@ -89,6 +96,12 @@ Content-Type | application/json
 /payment[]/amount   |  ○   | number | 金額
 
 リクエストのpayment配列が空またはnullの場合は、amount=0
+
+##### リクエストサンプル
+
+```bash
+curl.exe --header "Content-Type: application/json" --request POST localhost:8080/dutch-treat --data '{\"payment\": [{\"payer\": \"Alice\", \"amount\": 500},{\"payer\": \"Bob\", \"amount\": 1500}]}'
+```
 
 ##### エラーレスポンス
 
